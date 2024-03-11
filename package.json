@@ -1,0 +1,17 @@
+{
+  "name": "00_base",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/index.mjs",
+    "start:dev": "nodemon ./src/index.mjs"
+  },
+  "keywords": [],
+  "author": "DatLT",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.3"
+  }
+}
