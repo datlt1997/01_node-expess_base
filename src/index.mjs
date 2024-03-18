@@ -3,6 +3,8 @@ import routes from "./routes/index.mjs";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import { mockUser } from "./utils/constants.mjs";
+import passport from "passport";
+import "./strategies/local-strategy.mjs";
 
 const app = express();
 
@@ -19,9 +21,33 @@ app.use(session({
     cookie: {
         maxAge: 60000 * 60 * 24,
     }
-}))
+}));
+
+
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/api', routes);
 
+app.post("/api/auth", passport.authenticate('local'), (req, res) => {
+    return res.sendStatus(200)
+})
+
+app.get('/api/auth/status', (req, res) => {
+    console.log(`Inside /auth/status endpoint`);
+    console.log(req.user);
+    console.log(req.session)
+    return (req.user) ? res.send(req.user) : res.sendStatus(401);
+
+})
+
+
+app.post("/api/auth/logout", (req, res) => {
+    if (!req.user) return res.sendStatus(401);
+    req.logout((err) => {
+        if (err) return res.sendStatus(400)
+        res.send(200)
+    })
+})
 
 app.use((req, res, next) => {
     console.log(`${req.method}: ${req.url}`)
@@ -34,25 +60,26 @@ app.get('/', (req, res) => {
     res.status(201).send({msg : "hello"})
 })
 
-app.post('/api/auth', (req, res) => {
-    const {
-        body: { username, password }
-    } = req;
-    const findUser = mockUser.find(u => u.username === username)
-    if(!findUser || findUser.password != password) return res.status(401).send({ msg: "BAD Credentials"});
 
-    req.session.user = findUser;
-    return res.status(200).send(findUser);
-})
+//app.post('/api/auth', (req, res) => {
+//    const {
+//        body: { username, password }
+//    } = req;
+//    const findUser = mockUser.find(u => u.username === username)
+//    if(!findUser || findUser.password != password) return res.status(401).send({ msg: "BAD Credentials"});
+//
+//    req.session.user = findUser;
+//    return res.status(200).send(findUser);
+//})
 
-app.get('/api/auth/status', (req, res) => {
-    req.sessionStore.get( req.sessionID, (err, session) => {
-        console.log(session);
-    })
-    return req.session.user
-    ? res.status(200).send(req.session.user)
-    : res.status(401).send({ msg: "Not authenticated"});
-})
+//app.get('/api/auth/status', (req, res) => {
+//    req.sessionStore.get( req.sessionID, (err, session) => {
+//        console.log(session);
+//    })
+//    return req.session.user
+//    ? res.status(200).send(req.session.user)
+//    : res.status(401).send({ msg: "Not authenticated"});
+//})
 
 app.post('/api/cart', (req, res) => {
     if (!req.session.user) return res.sendStatus(401);
