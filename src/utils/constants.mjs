@@ -1,44 +1,51 @@
 export const mockUser = [
   {
       id:1,
-      username:"A",
+      username:"usera",
       displayname: 'AA',
-      age: 8
+      age: 8,
+      password: "hi123"
   },
   {
       id:2,
-      username:"A B",
+      username:"userab",
       displayname: 'AA A BA B',
-      age: 10
+      age: 10,
+      password: "hi123"
   },
   {
       id:3,
-      username:"BA",
+      username:"userac",
       displayname: 'AA BA',
-      age: 9
+      age: 9,
+      password: "hi123"
   },
   {
       id:4,
-      username:"GA",
+      username:"userad",
       displayname: 'AA GA',
-      age: 39
+      age: 39,
+      password: "hi123"
   },
   {
       id:5,
-      username:"GAew",
+      username:"userae",
       displayname: 'AA GAew',
-      age: 12
+      age: 12,
+      password: "hi123"
   },
   {
       id:6,
-      username:"GAvdvd",
+      username:"useraew",
       displayname: 'A GAvdvdA',
-      age: 32
+      age: 32,
+      password: "hi123"
   },
   {
       id:7,
-      username:"GAvdsvd",
+      username:"useraews",
       displayname: 'AA GAvdsvd',
-      age: 83
+      age: 83,
+      password: "hi123"
   },
 ];
